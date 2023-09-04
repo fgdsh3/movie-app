@@ -1,0 +1,5 @@
+.movie-slide {
+  display: grid;
+  grid-template-columns: repeat(2, 500px);
+  gap: 36px;
+}

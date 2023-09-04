@@ -1,0 +1,33 @@
+.header__btns {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.search-btn,
+.rated-btn {
+  color: var(--text-color, rgba(0, 0, 0, 0.65));
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  margin: 32px 0;
+}
+
+.active-btn {
+  color: var(--primary-color, #1890FF);
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 64px;
+    height: 2px;
+    background-color: #1890FF;
+    pointer-events: none;
+  }
+}
