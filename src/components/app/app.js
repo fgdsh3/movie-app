@@ -11,8 +11,12 @@ export const App = () => {
   const [movieRatedArr, setMovieRatedArr] = useState([]);
   const [genresObj, setGenresObj] = useState({});
   const [isRated, setIsRated] = useState(false);
+  const [currPage, setCurrPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchGenres = async () => {
       const newGenresObj = await movieApi.getGenres();
       setGenresObj(newGenresObj);
@@ -20,17 +24,49 @@ export const App = () => {
     fetchGenres();
     fetchRatedFilms();
     console.log(movieRatedArr)
+  }, []); */
+  useEffect(() => {
+    const fetchGenres = async () => {
+      const newGenresObj = await movieApi.getGenres();
+      setGenresObj(newGenresObj);
+    };
+    fetchGenres();
+    fetchRatedFilms();
   }, []);
 
+  useEffect(() => {
+    if (isRated) {
+      fetchRatedFilms();
+    }
+    else if (searchValue !== '') {
+      createFilms(searchValue)
+    }
+  }, [currPage]);
 
-  const fetchRatedFilms = async () => {
-    const newRatedArr = await movieApi.getRatedFilms();
-    setMovieRatedArr(newRatedArr)
+  const handleSetSearchValue = (value) => {
+    setSearchValue(value)
+  }
+
+  const handleSetCurrPage = (value) => {
+    setCurrPage(value)
+  }
+
+  const fetchRatedFilms = () => {
+    setIsLoading(true)
+    movieApi.getRatedFilms(currPage)
+      .then((response) => {
+        setTotalPages(response.total_pages)
+        setMovieRatedArr(response.results)
+        setIsLoading(false)
+      })
   };
 
   const createFilms = (str) => {
-    movieApi.getFilms(str).then((response) => {
+    setIsLoading(true)
+    movieApi.getFilms(str, currPage).then((response) => {
+      setTotalPages(response.total_pages)
       setMovieArr(response.results)
+      setIsLoading(false)
     });
   }
 
@@ -43,6 +79,8 @@ export const App = () => {
     <div className="app container" >
       <Header
         createFilms={createFilms}
+        handleSetSearchValue={handleSetSearchValue}
+        searchValue={searchValue}
         isRated={isRated}
         setIsRated={setIsRated} >
       </Header>
@@ -54,7 +92,10 @@ export const App = () => {
         movieRatedArr={movieRatedArr}
         setMovieRatedArr={setMovieRatedArr}
         rateFilm={movieApi.rateFilm}
-        fetchRatedFilms={fetchRatedFilms} >
+        fetchRatedFilms={fetchRatedFilms}
+        handleSetCurrPage={handleSetCurrPage}
+        totalPages={totalPages}
+        isLoading={isLoading}>
       </MovieSlider>
     </div >
   )

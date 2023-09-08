@@ -1,7 +1,3 @@
-import { varsObj } from "../global-vars";
-
-const { CURR_PAGE } = varsObj;
-
 export class MovieApiService {
 
   constructor() {
@@ -33,8 +29,8 @@ export class MovieApiService {
     return genresObj;
   };
 
-  getFilms = async (inputValue) => {
-    return await this.getResponseBody(`search/movie?api_key=${this._apiKey}&query=${inputValue}&include_adult=false&language=en-US`);
+  getFilms = async (inputValue, currPage) => {
+    return await this.getResponseBody(`search/movie?api_key=${this._apiKey}&query=${inputValue}&include_adult=false&language=en-US&page=${currPage}`);
   }
 
   getGuestSessionId = async () => {
@@ -64,10 +60,10 @@ export class MovieApiService {
        }
      });
    } */
-  getRatedFilms = async () => {
+  getRatedFilms = async (currPage) => {
     const guestSessionId = JSON.parse(localStorage.getItem('sessionId'))
-    const res = await this.getResponseBody(`guest_session/${guestSessionId}/rated/movies?api_key=${this._apiKey}&page=1`);
-    return res.results
+    const res = await this.getResponseBody(`guest_session/${guestSessionId}/rated/movies?api_key=${this._apiKey}&page=${currPage}&language=en-US&sort_by=created_at.asc`);
+    return res
   }
 
   rateFilm = async (movieId, method, rating) => {

@@ -5,12 +5,20 @@ import { Search } from './search/search';
 
 export const Header = (props) => {
 
-  const { createFilms, isRated, setIsRated } = props
+  const { createFilms, isRated, setIsRated, searchValue, handleSetSearchValue } = props
+
+  if (isRated) {
+    return (
+      <header>
+        <HeaderButtons isRated={isRated} setIsRated={setIsRated}></HeaderButtons>
+      </header>
+    )
+  }
 
   return (
     <header>
       <HeaderButtons isRated={isRated} setIsRated={setIsRated}></HeaderButtons>
-      <Search createFilms={createFilms}></Search>
+      <Search createFilms={createFilms} searchValue={searchValue} handleSetSearchValue={handleSetSearchValue}></Search>
     </header>
   )
 }

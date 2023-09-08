@@ -10,12 +10,16 @@
   }
 }
 
-.slide-item__content {
-  display: flex;
-  flex-direction: column;
-  margin: 0 20px;
+.slide-item {
+  position: relative;
 
-  &-title {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+  }
+
+  &__title {
     font-family: 'Inter UI';
     font-size: 20px;
     font-style: normal;
@@ -27,14 +31,28 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 220px;
   }
 
-  &-date {
+  &__vote-average {
+    position: absolute;
+    right: 9px;
+    top: 12px;
+    width: 35px;
+    height: 35px;
+    border: 2px solid;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__date {
     color: #827E7E;
     margin-bottom: 7px;
   }
 
-  &-genres {
+  &__genres {
     display: flex;
     gap: 8px;
     margin-bottom: 7px;
@@ -42,7 +60,7 @@
     overflow: hidden;
   }
 
-  &-text {
+  &__text {
     word-break: break-all;
     margin-bottom: 14px;
   }
@@ -59,4 +77,20 @@
   border: 1px solid #D9D9D9;
   background: #FAFAFA;
   padding: 2px 4px;
+}
+
+.low-color {
+  border-color: #E90000;
+}
+
+.below-middle-color {
+  border-color: #E97E00;
+}
+
+.above-middle-color {
+  border-color: #E9D100;
+}
+
+.high-color {
+  border-color: #66E900;
 }

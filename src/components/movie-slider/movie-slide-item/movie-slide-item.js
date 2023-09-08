@@ -3,34 +3,52 @@ import { Genre } from '../genre';
 import { Rate } from 'antd';
 import { format } from 'date-fns'
 import { useState } from 'react';
-import { varsObj } from '../../../global-vars';
 
-let { PREV_CLICKED_STAR } = varsObj
 
 export const MovieSlideItem = (props) => {
 
-  const { movieId, imgSrc, title, date, genreIds, genresObj, text, rateFilm, fetchRatedFilms } = props;
+  const { movieId, isRated, imgSrc, title, date, genreIds, genresObj, text, movieRating, rateFilm, fetchRatedFilms, voteAverage } = props;
   const [movieIsRated, setMovieIsRated] = useState(false);
-  const [value, setValue] = useState(0);
+  const [prevClickedStar, setPrevClickedStar] = useState(null);
 
-  const releaseDate = new Date(date);
-  const MonthFullname = format(releaseDate, 'MMMM');
-  const visibleReleaseDate = `${MonthFullname} ${releaseDate.getDate()}, ${releaseDate.getFullYear()}`
+  let visibleReleaseDate;
+  let ratingColor = 'low-color';
 
-  /*  useEffect(() => {
-     if (movieIsRated) {
-       const newMovieRatedArr = [...movieRatedArr.slice(0, index), ...movieRatedArr.slice(index + 1)]
-       setMovieRatedArr(newMovieRatedArr)
-     }
-     else {
-       const newMovieRatedArr = [...movieRatedArr, movie]
-       setMovieRatedArr(newMovieRatedArr)
-     }
-   },
-     [movieIsRated]) */
+  if (voteAverage >= 3 && voteAverage < 5) {
+    ratingColor = 'below-middle-color';
+  }
+  if (voteAverage >= 5 && voteAverage < 7) {
+    ratingColor = 'above-middle-color';
+  }
+  if (voteAverage > 7) {
+    ratingColor = 'high-color';
+  }
+
+  let posterSrc = imgSrc;
+  if (posterSrc === 'https://image.tmdb.org/t/p/originalnull') {
+    posterSrc = '/no-poster.jpg';
+  }
+  if (date.length === 0) {
+    visibleReleaseDate = '';
+  }
+  else {
+    const releaseDate = new Date(date);
+    const MonthFullname = format(releaseDate, 'MMMM');
+    visibleReleaseDate = `${MonthFullname} ${releaseDate.getDate()}, ${releaseDate.getFullYear()}`
+  }
+
+  let defaultValue = 0;
+
+  if (movieRating) {
+    defaultValue = movieRating
+  }
 
   const checkStarsClick = (value) => {
-    if (PREV_CLICKED_STAR === null || value.target !== PREV_CLICKED_STAR) {
+    if (isRated) {
+      setMovieIsRated(true);
+    }
+
+    if (prevClickedStar === null || value.target !== prevClickedStar) {
       setMovieIsRated(true);
       rateFilm(movieId, 'POST', value);
     }
@@ -39,7 +57,7 @@ export const MovieSlideItem = (props) => {
       rateFilm(movieId, 'DELETE', value);
     }
     fetchRatedFilms()
-    PREV_CLICKED_STAR = value.target;
+    setPrevClickedStar(() => (value.target))
     console.log(value)
   }
 
@@ -49,28 +67,31 @@ export const MovieSlideItem = (props) => {
     ));
   }
 
+
   return (
     <div className="slide-item">
-      <img className="slide-item__img" src={imgSrc} alt="poster"></img>
+      <img className="slide-item__img" src={posterSrc} alt="poster"></img>
       <div className="slide-item__content">
-        <h4 className="slide-item__content-title">
+        <h4 className="slide-item__title">
           {title}
         </h4>
-        <span className="slide-item__content-date">
+        <div className={`slide-item__vote-average ${ratingColor}`}>
+          {voteAverage}
+        </div>
+        <span className="slide-item__date">
           {visibleReleaseDate}
         </span>
-        <div className="slide-item__content-genres">
+        <div className="slide-item__genres">
           {createGenres(genreIds)}
         </div>
-        <p className="slide-item__content-text">
+        <p className="slide-item__text">
           {text()}
         </p>
         <Rate
           allowHalf
-          defaultValue={0}
+          defaultValue={defaultValue}
           count={10}
           onChange={(value) => {
-            setValue(value)
             checkStarsClick(value);
           }} />
       </div>
