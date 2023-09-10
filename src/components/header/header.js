@@ -1,10 +1,11 @@
-import React from 'react';
-import './header.scss';
-import { HeaderButtons } from './header-buttons';
-import { Search } from './search/search';
+import React from 'react'
+import './header.scss'
+import { PropTypes } from 'prop-types'
+
+import { HeaderButtons } from './header-buttons'
+import { Search } from './search/search'
 
 export const Header = (props) => {
-
   const { createFilms, isRated, setIsRated, searchValue, handleSetSearchValue } = props
 
   if (isRated) {
@@ -23,3 +24,10 @@ export const Header = (props) => {
   )
 }
 
+Header.propTypes = {
+  createFilms: PropTypes.func.isRequired,
+  isRated: PropTypes.bool.isRequired,
+  setIsRated: PropTypes.func.isRequired,
+  searchValue: PropTypes.string.isRequired,
+  handleSetSearchValue: PropTypes.func.isRequired,
+}

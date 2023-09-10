@@ -1,3 +1,3 @@
-import { MovieSlider } from './movie-slider';
+import { MovieSlider } from './movie-slider'
 
-export { MovieSlider };
+export { MovieSlider }

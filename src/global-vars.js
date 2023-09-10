@@ -1,3 +1,1 @@
-window.varsObj = {
-  
-} 
+window.varsObj = {}

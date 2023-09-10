@@ -1,3 +1,3 @@
-import { MovieSliderPagination } from './movie-slider-pagination';
+import { MovieSliderPagination } from './movie-slider-pagination'
 
-export { MovieSliderPagination };
+export { MovieSliderPagination }

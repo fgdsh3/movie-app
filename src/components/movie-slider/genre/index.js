@@ -1,3 +1,3 @@
-import { Genre } from "./genre";
+import { Genre } from './genre'
 
-export { Genre };
+export { Genre }

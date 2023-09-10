@@ -1,3 +1,3 @@
-import {HeaderButtons} from './header-buttons';
+import { HeaderButtons } from './header-buttons'
 
-export {HeaderButtons};
+export { HeaderButtons }

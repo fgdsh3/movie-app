@@ -1,3 +1,3 @@
-import { MovieSlideItem } from './movie-slide-item';
+import { MovieSlideItem } from './movie-slide-item'
 
-export { MovieSlideItem };
+export { MovieSlideItem }

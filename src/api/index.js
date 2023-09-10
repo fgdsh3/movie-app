@@ -1,3 +1,3 @@
-import { MovieApiService } from './api';
+import { MovieApiService } from './api'
 
-export { MovieApiService };
+export { MovieApiService }
