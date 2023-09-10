@@ -41,7 +41,7 @@ export const MovieSlider = (props) => {
           isRated={isRated}
           movieRating={movie.rating}
           fetchRatedFilms={fetchRatedFilms}
-          text={() => {
+          getText={() => {
             if (movie.overview.length > 200) {
               const lastSpace = movie.overview.lastIndexOf(' ', 200)
               let slicedMovieText = movie.overview.slice(0, lastSpace)

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { Genre } from '../genre'
 
 export const MovieSlideItem = (props) => {
-  const { movieId, isRated, imgSrc, title, date, genreIds, genresObj, text, movieRating, rateFilm, voteAverage } =
+  const { movieId, isRated, imgSrc, title, date, genreIds, genresObj, getText, movieRating, rateFilm, voteAverage } =
     props
   const [movieIsRated, setMovieIsRated] = useState(false)
   const [prevClickedStar, setPrevClickedStar] = useState(null)
@@ -60,16 +60,17 @@ export const MovieSlideItem = (props) => {
   const createGenres = () => {
     return genreIds.map((genreId) => <Genre key={genreId} label={genresObj[genreId]}></Genre>)
   }
-
   return (
     <div className="slide-item">
-      <img className="slide-item__img" src={posterSrc} alt="poster"></img>
+      <div className="slide-item__img-box">
+        <img className="slide-item__img" src={posterSrc} alt="poster"></img>
+      </div>
       <div className="slide-item__content">
         <h4 className="slide-item__title">{title}</h4>
         <div className={`slide-item__vote-average ${ratingColor}`}>{voteAverage}</div>
         <span className="slide-item__date">{visibleReleaseDate}</span>
         <div className="slide-item__genres">{createGenres(genreIds)}</div>
-        <p className="slide-item__text">{text()}</p>
+        <p className="slide-item__text">{getText()}</p>
         <Rate
           allowHalf
           defaultValue={defaultValue}
@@ -82,7 +83,6 @@ export const MovieSlideItem = (props) => {
     </div>
   )
 }
-
 MovieSlideItem.propTypes = {
   movieId: PropTypes.number.isRequired,
   isRated: PropTypes.bool.isRequired,
@@ -91,8 +91,12 @@ MovieSlideItem.propTypes = {
   date: PropTypes.string.isRequired,
   genreIds: PropTypes.array.isRequired,
   genresObj: PropTypes.object.isRequired,
-  text: PropTypes.string.isRequired,
-  movieRating: PropTypes.number.isRequired,
+  getText: PropTypes.func.isRequired,
+  movieRating: PropTypes.number,
   rateFilm: PropTypes.func.isRequired,
-  voteAverage: PropTypes.number.isRequired,
+  voteAverage: PropTypes.string.isRequired,
+}
+
+MovieSlideItem.defaultProps = {
+  movieRating: 0,
 }

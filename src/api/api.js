@@ -7,7 +7,7 @@ export class MovieApiService {
     this.getSessionIdToStorage()
   }
 
-  async getResponseBody(url, options = {}) {
+  getResponseBody = async (url, options = {}) => {
     const res = await fetch(`${this._apiBase}${url}`, options)
 
     if (!res.ok) {
@@ -17,22 +17,21 @@ export class MovieApiService {
     return body
   }
 
-  async getGenres() {
+  getGenres = async () => {
     const genresObj = {}
     const res = await this.getResponseBody(`genre/movie/list?api_key=${this._apiKey}&language=en`)
-
     res.genres.forEach(genre => {
       genresObj[genre.id] = genre.name
     })
 
     return genresObj
-  };
+  }
 
-  async getFilms(inputValue, currPage) {
+  getFilms = async (inputValue, currPage) => {
     return await this.getResponseBody(`search/movie?api_key=${this._apiKey}&query=${inputValue}&include_adult=false&language=en-US&page=${currPage}`)
   }
 
-  async getGuestSessionId() {
+  getGuestSessionId = async () => {
     try {
       const res = await this.getResponseBody(`authentication/guest_session/new?api_key=${this._apiKey}`)
       return res.guest_session_id
@@ -42,7 +41,7 @@ export class MovieApiService {
     }
   }
 
-  async getSessionIdToStorage() {
+  getSessionIdToStorage = async () => {
     try {
       const storedSessionId = localStorage.getItem('sessionId')
 
@@ -60,7 +59,7 @@ export class MovieApiService {
     }
   }
 
-  async getRatedFilms(currPage) {
+  getRatedFilms = async (currPage) => {
     try {
       const guestSessionId = JSON.parse(localStorage.getItem('sessionId'))
       const res = await this.getResponseBody(`guest_session/${guestSessionId}/rated/movies?api_key=${this._apiKey}&page=${currPage}&language=en-US&sort_by=created_at.asc`)
@@ -71,23 +70,21 @@ export class MovieApiService {
     }
   }
 
-  async rateFilm(movieId, method, rating) {
+  rateFilm = async (movieId, method, rating) => {
     try {
       const guestSessionId = JSON.parse(localStorage.getItem('sessionId'))
 
       const requestOptions = {
         method: method,
         headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Authorization': this._apiToken
+          'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify({
           value: rating
         })
       }
 
-      return await this.getResponseBody(
-        `movie/${movieId}/rating?api_key=${this._apiKey}&guest_session_id=${guestSessionId}`,
+      return await this.getResponseBody(`movie/${movieId}/rating?api_key=${this._apiKey}&guest_session_id=${guestSessionId}`,
         requestOptions
       )
     }
