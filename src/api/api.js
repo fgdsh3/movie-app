@@ -4,7 +4,6 @@ export class MovieApiService {
     this._apiBase = 'https://api.themoviedb.org/3/'
     this._apiKey = '4ebd101a897f026b863b099e65dd40aa'
     this._apiToken = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZWJkMTAxYTg5N2YwMjZiODYzYjA5OWU2NWRkNDBhYSIsInN1YiI6IjY0ZTA5ZTM4YTNiNWU2MDFkNjNhNzg3OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MYI-y3ovfrHVd0jW6YIdwBgJhfmWdttD7uXVNKzqQa'
-    this.getSessionIdToStorage()
   }
 
   getResponseBody = async (url, options = {}) => {
@@ -43,16 +42,8 @@ export class MovieApiService {
 
   getSessionIdToStorage = async () => {
     try {
-      const storedSessionId = localStorage.getItem('sessionId')
-
-      if (storedSessionId === 'undefined' || !storedSessionId) {
-        const sessionId = await this.getGuestSessionId()
-        localStorage.setItem('sessionId', JSON.stringify(sessionId))
-
-        setInterval(() => {
-          localStorage.deleteItem('sessionId')
-        }, 1800000)
-      }
+      const sessionId = await this.getGuestSessionId()
+      localStorage.setItem('sessionId', JSON.stringify(sessionId))
     }
     catch {
       throw new Error('Cannot set session id to storage')
@@ -77,7 +68,8 @@ export class MovieApiService {
       const requestOptions = {
         method: method,
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          'Content-Type': 'application/json;charset=utf-8',
+          'Authorization': this._apiToken
         },
         body: JSON.stringify({
           value: rating

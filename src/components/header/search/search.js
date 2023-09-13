@@ -7,8 +7,8 @@ export const Search = (props) => {
   const { createFilms, searchValue, handleSetSearchValue } = props
 
   const deferredCreateFilms = useCallback(
-    debounce(() => {
-      createFilms(searchValue)
+    debounce((value) => {
+      createFilms(value)
     }, 500),
     []
   )
@@ -18,7 +18,7 @@ export const Search = (props) => {
     handleSetSearchValue(value)
 
     if (value.length !== 0) {
-      deferredCreateFilms(searchValue)
+      deferredCreateFilms(value)
     }
   }
 
