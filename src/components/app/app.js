@@ -26,20 +26,29 @@ export const App = () => {
   const [isEstimated, setIsEstimated] = useState(false)
 
   useEffect(() => {
-    const fetchGenres = () => {
-      movieApi
-        .getGenres()
-        .then((response) => {
-          setFetchFailed(false)
-          setGenresObj(response)
-        })
-        .catch(() => {
-          setFetchFailed(true)
-          throw new Error('Cannot fetch genres')
-        })
+    async function fetchData() {
+      try {
+        const fetchGenres = () => {
+          movieApi
+            .getGenres()
+            .then((response) => {
+              setFetchFailed(false)
+              setGenresObj(response)
+            })
+            .catch(() => {
+              setFetchFailed(true)
+              throw new Error('Cannot fetch genres')
+            })
+        }
+        fetchGenres()
+        await localStorageService.getSessionIdToStorage()
+      }
+      catch {
+        setFetchFailed(true)
+        throw new Error('cannot fetch data')
+      }
     }
-    fetchGenres()
-    localStorageService.getSessionIdToStorage()
+    fetchData()
   }, [])
 
   useEffect(() => {

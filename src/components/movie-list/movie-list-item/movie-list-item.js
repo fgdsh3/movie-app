@@ -86,6 +86,7 @@ export const MovieListItem = (props) => {
     </div >
   )
 }
+
 MovieListItem.propTypes = {
   movieId: PropTypes.number.isRequired,
   isRated: PropTypes.bool.isRequired,

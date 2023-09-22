@@ -23,7 +23,7 @@ class LocalStorageService {
       localStorage.setItem('sessionId', JSON.stringify(sessionId))
     }
     catch {
-      throw new Error('Cannot set session id to storage')
+      throw new Error('Cannot fetch guest session')
     }
   }
 }
