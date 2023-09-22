@@ -6,28 +6,24 @@ import { HeaderButtons } from './header-buttons'
 import { Search } from './search/search'
 
 export const Header = (props) => {
-  const { createFilms, isRated, setIsRated, searchValue, handleSetSearchValue } = props
+  const { isRated } = props
 
   if (isRated) {
     return (
       <header>
-        <HeaderButtons isRated={isRated} setIsRated={setIsRated}></HeaderButtons>
+        <HeaderButtons isRated={isRated} ></HeaderButtons>
       </header>
     )
   }
 
   return (
     <header>
-      <HeaderButtons isRated={isRated} setIsRated={setIsRated}></HeaderButtons>
-      <Search createFilms={createFilms} searchValue={searchValue} handleSetSearchValue={handleSetSearchValue}></Search>
+      <HeaderButtons isRated={isRated} ></HeaderButtons>
+      <Search></Search>
     </header>
   )
 }
 
 Header.propTypes = {
-  createFilms: PropTypes.func.isRequired,
   isRated: PropTypes.bool.isRequired,
-  setIsRated: PropTypes.func.isRequired,
-  searchValue: PropTypes.string.isRequired,
-  handleSetSearchValue: PropTypes.func.isRequired,
 }

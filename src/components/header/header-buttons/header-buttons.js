@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import './header-buttons.scss'
-import PropTypes from 'prop-types'
 
-export const HeaderButtons = (props) => {
-  const { setIsRated } = props
+import { AppContext } from '../../app/app'
+
+export const HeaderButtons = () => {
+  const { setIsRated } = useContext(AppContext)
   const [activeBtn, setActiveBtn] = useState('search')
 
   useEffect(() => {
@@ -34,8 +35,4 @@ export const HeaderButtons = (props) => {
       </button>
     </div>
   )
-}
-
-HeaderButtons.propTypes = {
-  setIsRated: PropTypes.func.isRequired,
 }

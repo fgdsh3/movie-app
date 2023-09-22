@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import debounce from 'lodash/debounce'
-import './search.scss'
-import PropTypes from 'prop-types'
 
-export const Search = (props) => {
-  const { createFilms, searchValue, handleSetSearchValue } = props
+import './search.scss'
+import { AppContext } from '../../app/app'
+
+export const Search = () => {
+  const { createFilms, searchValue, handleSetSearchValue, handleSetIsLoading } = useContext(AppContext)
 
   const deferredCreateFilms = useCallback(
     debounce((value) => {
@@ -18,6 +19,7 @@ export const Search = (props) => {
     handleSetSearchValue(value)
 
     if (value.length !== 0) {
+      handleSetIsLoading(true)
       deferredCreateFilms(value)
     }
   }
@@ -31,10 +33,4 @@ export const Search = (props) => {
       onChange={handleChange}
     />
   )
-}
-
-Search.propTypes = {
-  createFilms: PropTypes.func.isRequired,
-  searchValue: PropTypes.string.isRequired,
-  handleSetSearchValue: PropTypes.func.isRequired,
 }

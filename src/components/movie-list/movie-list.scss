@@ -1,14 +1,18 @@
-.movie-slide {
+.movie-list-box {
   display: grid;
   grid-template-columns: repeat(2, 500px);
   gap: 36px;
 }
 
-.movie-slider {
+.movie-list {
   padding-bottom: 36px;
 }
 
 :where(.css-dev-only-do-not-override-190m0jy).ant-spin-spinning {
   margin: 0 auto;
   display: block;
+}
+
+.ant-alert-info {
+  width: 1038px
 }

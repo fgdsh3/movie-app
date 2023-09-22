@@ -2,8 +2,8 @@ export class MovieApiService {
 
   constructor() {
     this._apiBase = 'https://api.themoviedb.org/3/'
-    this._apiKey = '4ebd101a897f026b863b099e65dd40aa'
-    this._apiToken = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZWJkMTAxYTg5N2YwMjZiODYzYjA5OWU2NWRkNDBhYSIsInN1YiI6IjY0ZTA5ZTM4YTNiNWU2MDFkNjNhNzg3OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MYI-y3ovfrHVd0jW6YIdwBgJhfmWdttD7uXVNKzqQa'
+    this._apiKey = localStorage.getItem('key')
+    this._apiToken = localStorage.getItem('token')
   }
 
   getResponseBody = async (url, options = {}) => {
@@ -40,16 +40,6 @@ export class MovieApiService {
     }
   }
 
-  getSessionIdToStorage = async () => {
-    try {
-      const sessionId = await this.getGuestSessionId()
-      localStorage.setItem('sessionId', JSON.stringify(sessionId))
-    }
-    catch {
-      throw new Error('Cannot set session id to storage')
-    }
-  }
-
   getRatedFilms = async (currPage) => {
     try {
       const guestSessionId = JSON.parse(localStorage.getItem('sessionId'))
@@ -61,7 +51,7 @@ export class MovieApiService {
     }
   }
 
-  rateFilm = async (movieId, method, rating) => {
+  rateMovie = async (movieId, method, rating) => {
     try {
       const guestSessionId = JSON.parse(localStorage.getItem('sessionId'))
 
@@ -76,9 +66,7 @@ export class MovieApiService {
         })
       }
 
-      return await this.getResponseBody(`movie/${movieId}/rating?api_key=${this._apiKey}&guest_session_id=${guestSessionId}`,
-        requestOptions
-      )
+      return await this.getResponseBody(`movie/${movieId}/rating?api_key=${this._apiKey}&guest_session_id=${guestSessionId}`, requestOptions)
     }
     catch {
       throw new Error('Cannot rate film')
